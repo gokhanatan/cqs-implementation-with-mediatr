@@ -6,11 +6,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using OrderApi.DataAccess.Abstract;
+using OrderApi.DataAccess.Concrete.EntityFramework.Context;
+using OrderApi.DataAccess.Concrete.EntityFramework.Repositories;
 
 namespace OrderApi
 {
@@ -32,6 +36,17 @@ namespace OrderApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OrderApi", Version = "v1" });
             });
+
+            services.AddDbContext<ECommerceContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("ECommerceDb"),
+                    sqlOptions =>
+                    {
+                        sqlOptions.EnableRetryOnFailure(maxRetryCount: 3, maxRetryDelay: System.TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                    });
+            });
+
+            services.AddScoped<IOrderRepository,OrderRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
