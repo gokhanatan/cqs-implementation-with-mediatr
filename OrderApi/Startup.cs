@@ -15,6 +15,8 @@ using Microsoft.OpenApi.Models;
 using OrderApi.DataAccess.Abstract;
 using OrderApi.DataAccess.Concrete.EntityFramework.Context;
 using OrderApi.DataAccess.Concrete.EntityFramework.Repositories;
+using OrderApi.Services.Abstract;
+using OrderApi.Services.Concrete;
 
 namespace OrderApi
 {
@@ -47,6 +49,7 @@ namespace OrderApi
             });
 
             services.AddScoped<IOrderRepository,OrderRepository>();
+            services.AddScoped<IOrderService,OrderService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OrderApi.DataAccess.Entities;
+using OrderApi.Services.Abstract;
 
 namespace OrderApi.Controllers
 {
@@ -8,23 +9,27 @@ namespace OrderApi.Controllers
     [Route("api/order")]
     public class OrdersController : ControllerBase
     {
-        public OrdersController()
+        private readonly IOrderService _orderService;
+        public OrdersController(IOrderService orderService)
         {
-            
+            _orderService = orderService;
+
         }
 
         [HttpPost]
         [Route("create")]
         public async Task<IActionResult> Create(Order order)
         {
+            await _orderService.Create(order);
             return Ok();
         }
 
         [HttpGet]
-        [Route("get")]
-        public async Task<IActionResult> Get(string orderCode)
+        [Route("getbycode")]
+        public async Task<IActionResult> GetByCode([FromQuery]string code)
         {
-            return Ok();
+            var order = await _orderService.GetByCode(code);
+            return Ok(order);
         }
     }
 }

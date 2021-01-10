@@ -22,7 +22,7 @@ namespace OrderApi.DataAccess.Concrete.EntityFramework.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Order> Get(string code)
+        public async Task<Order> GetByCode(string code)
         {
             return await _context.Orders.SingleOrDefaultAsync(o => o.Code == code);
         }

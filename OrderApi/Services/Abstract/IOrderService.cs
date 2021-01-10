@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
 using OrderApi.DataAccess.Entities;
 
-namespace OrderApi.DataAccess.Abstract
+namespace OrderApi.Services.Abstract
 {
-    public interface IOrderRepository
+    public interface IOrderService
     {
         Task Create(Order order);
         Task<Order> GetByCode(string code);
