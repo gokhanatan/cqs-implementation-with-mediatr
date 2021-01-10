@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OrderApi.DataAccess.Entities;
-using OrderApi.Services.Abstract;
+using OrderApi.Domain.Commands;
+using OrderApi.Domain.Queries;
 
 namespace OrderApi.Controllers
 {
@@ -9,26 +11,32 @@ namespace OrderApi.Controllers
     [Route("api/order")]
     public class OrdersController : ControllerBase
     {
-        private readonly IOrderService _orderService;
-        public OrdersController(IOrderService orderService)
+        private readonly IMediator _mediator;
+        public OrdersController(IMediator mediator)
         {
-            _orderService = orderService;
-
+            _mediator = mediator;
         }
 
         [HttpPost]
         [Route("create")]
-        public async Task<IActionResult> Create(Order order)
+        public async Task<IActionResult> Create(CreateOrderCommand createOrderCommand)
         {
-            await _orderService.Create(order);
+            await _mediator.Send(createOrderCommand);
             return Ok();
         }
 
         [HttpGet]
         [Route("getbycode")]
-        public async Task<IActionResult> GetByCode([FromQuery]string code)
+        public async Task<IActionResult> GetByCode([FromQuery] string code)
         {
-            var order = await _orderService.GetByCode(code);
+            GetOrderByCodeQuery query = new GetOrderByCodeQuery(code);
+            var order = await _mediator.Send(query);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
             return Ok(order);
         }
     }
