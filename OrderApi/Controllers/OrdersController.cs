@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OrderApi.DataAccess.Entities;
@@ -20,6 +21,7 @@ namespace OrderApi.Controllers
         [Route("create")]
         public async Task<IActionResult> Create(Order order)
         {
+            order.Id = Guid.NewGuid();
             await _orderService.Create(order);
             return Ok();
         }

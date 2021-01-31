@@ -21,11 +21,10 @@ namespace OrderApi.Migrations
 
             modelBuilder.Entity("OrderApi.DataAccess.Entities.Order", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("Id")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id");
 
                     b.Property<string>("Code")
                         .IsRequired()

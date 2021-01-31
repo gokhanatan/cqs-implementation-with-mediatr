@@ -10,7 +10,7 @@ using OrderApi.DataAccess.Concrete.EntityFramework.Context;
 namespace OrderApi.Migrations
 {
     [DbContext(typeof(ECommerceContext))]
-    [Migration("20210110161634_AddOrderTable")]
+    [Migration("20210131170339_AddOrderTable")]
     partial class AddOrderTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,11 +23,10 @@ namespace OrderApi.Migrations
 
             modelBuilder.Entity("OrderApi.DataAccess.Entities.Order", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("Id")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id");
 
                     b.Property<string>("Code")
                         .IsRequired()
