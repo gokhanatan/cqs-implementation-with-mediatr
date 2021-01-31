@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,7 @@ namespace OrderApi.Controllers
         [Route("create")]
         public async Task<IActionResult> Create(CreateOrderCommand createOrderCommand)
         {
+            createOrderCommand.Id = Guid.NewGuid();
             await _mediator.Send(createOrderCommand);
             return Ok();
         }

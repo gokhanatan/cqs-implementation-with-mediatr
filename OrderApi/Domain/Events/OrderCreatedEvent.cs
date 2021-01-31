@@ -5,7 +5,7 @@ namespace OrderApi.Domain.Events
 {
     public class OrderCreatedEvent : INotification
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public string Code { get; set; }
         public DateTime CreateDate { get; set; }
         public decimal TotalPrice { get; set; }
